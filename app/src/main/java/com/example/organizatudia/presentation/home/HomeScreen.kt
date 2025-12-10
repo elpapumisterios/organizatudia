@@ -3,6 +3,8 @@ package com.example.organizatudia.presentation.home
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,11 +16,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun HomeScreen(
+    onAddTaskClick: () -> Unit,
     homeViewModel: HomeViewModel = viewModel()
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAddTaskClick) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Agregar tarea"
+                )
+            }
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -85,10 +97,9 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // usamos la sobrecarga de items que recibe la lista
                 items(
                     items = uiState.tasks,
-                    key = { it.id }          // necesita que TaskUiModel tenga 'id'
+                    key = { it.id }
                 ) { task ->
                     TaskItem(
                         task = task,

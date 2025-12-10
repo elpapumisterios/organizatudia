@@ -24,7 +24,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    onProfileClick: () -> Unit = {},
+    onTasksClick: () -> Unit = {},
+    onTreeProgressClick: () -> Unit = {},
+    onAchievementsClick: () -> Unit = {},
+    onNotificationsClick: () -> Unit = {},
+    onArchivedTasksClick: () -> Unit = {}
+) {
     Column(modifier = Modifier.padding(16.dp)) {
 
         Text(
@@ -35,33 +42,38 @@ fun SettingsScreen() {
 
         SettingsItem(
             icon = Icons.Default.AccountCircle,
-            text = "Mi perfil"
+            text = "Mi perfil",
+            onClick = onProfileClick
         )
 
         SettingsItem(
             icon = Icons.AutoMirrored.Filled.List,
-            text = "Mis tareas"
-        )
-
-        // Usamos íconos de Material en vez de ic_tree / ic_trophy
-        SettingsItem(
-            icon = Icons.Default.Star,
-            text = "Árbol progreso"
+            text = "Mis tareas",
+            onClick = onTasksClick
         )
 
         SettingsItem(
             icon = Icons.Default.Star,
-            text = "Logros"
+            text = "Árbol progreso",
+            onClick = onTreeProgressClick
+        )
+
+        SettingsItem(
+            icon = Icons.Default.Star,
+            text = "Logros",
+            onClick = onAchievementsClick
         )
 
         SettingsItem(
             icon = Icons.Default.Notifications,
-            text = "Notificaciones"
+            text = "Notificaciones",
+            onClick = onNotificationsClick
         )
 
         SettingsItem(
             icon = Icons.Default.Archive,
-            text = "Tareas archivadas"
+            text = "Tareas archivadas",
+            onClick = onArchivedTasksClick
         )
     }
 }

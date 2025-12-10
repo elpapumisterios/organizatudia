@@ -1,80 +1,86 @@
 package com.example.organizatudia.presentation.profile
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.organizatudia.data.repository.TaskRepositoryProvider
 
 @Composable
 fun ProfileScreen() {
+    val repository = TaskRepositoryProvider.taskRepository
+    val tasks by repository.getTasks().collectAsState(initial = emptyList())
+
+    val totalTasks = tasks.size
+    val completedTasks = tasks.count { it.isCompleted }
+    val completionRate = if (totalTasks == 0) 0 else (completedTasks * 100 / totalTasks)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
 
-        Box(
-            modifier = Modifier
-                .size(120.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceVariant),
-            contentAlignment = Alignment.Center
-        ) {
-            // Avatar Placeholder
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            "Nombre de Usuario",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            "usuario@email.com",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-        Divider()
-
-        Column(
-            modifier = Modifier.padding(vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            ProfileInfoRow("Email", "usuario@email.com")
-            ProfileInfoRow("Tareas completadas", "24 tareas")
-            ProfileInfoRow("Miembro desde", "Enero 2024")
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(
-            onClick = { /* Lógica de cerrar sesión */ },
+        // Tarjeta de información básica del usuario (por ahora datos fijos)
+        Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            )
         ) {
-            Text("CERRAR SESIÓN")
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = "Usuario invitado",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Text(
+                    text = "Cuenta sin sesión (pronto: Firebase Auth)",
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-    }
-}
 
-@Composable
-private fun ProfileInfoRow(label: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(label, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
-        Text(value, style = MaterialTheme.typography.bodyMedium)
+        // Tarjeta de estadísticas de tareas
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "Estadísticas de tus tareas",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Text(
+                    text = "Tareas totales: $totalTasks",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Tareas completadas: $completedTasks",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Porcentaje de completadas: $completionRate%",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
     }
 }

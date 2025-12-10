@@ -52,22 +52,36 @@ fun AppNavHost(
             )
         }
         composable(Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onAddTaskClick = { navController.navigate(Screen.CreateTask.route) }
+            )
         }
+
         composable(Screen.Achievements.route) {
             AchievementsScreen()
         }
         composable(Screen.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(
+                onProfileClick = { navController.navigate(Screen.Profile.route) },
+                onTasksClick = { navController.navigate(Screen.Home.route) },
+                onTreeProgressClick = { navController.navigate(Screen.Home.route) }, // o futura pantalla de árbol
+                onAchievementsClick = { navController.navigate(Screen.Achievements.route) },
+                onNotificationsClick = { /* futura pantalla de notificaciones */ },
+                onArchivedTasksClick = { navController.navigate(Screen.ArchivedTasks.route) }
+            )
         }
         composable(Screen.Profile.route) {
             ProfileScreen()
         }
         composable(Screen.ArchivedTasks.route) {
-            ArchivedTasksScreen()
+            ArchivedTasksScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
         composable(Screen.CreateTask.route) {
-            CreateTaskScreen()
+            CreateTaskScreen(
+                onTaskSaved = { navController.popBackStack() }
+            )
         }
     }
 }
