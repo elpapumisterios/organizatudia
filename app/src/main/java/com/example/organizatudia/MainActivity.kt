@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.organizatudia.data.repository.TaskRepositoryProvider
 import com.example.organizatudia.presentation.home.BottomNavigationBar
 import com.example.organizatudia.presentation.navigation.AppNavHost
 import com.example.organizatudia.presentation.navigation.Screen
@@ -19,6 +20,10 @@ import com.example.organizatudia.ui.theme.OrganizaTuDiaTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Inicializamos el repositorio (Room) una sola vez para toda la app
+        TaskRepositoryProvider.init(applicationContext)
+
         enableEdgeToEdge()
         setContent {
             OrganizaTuDiaTheme {
