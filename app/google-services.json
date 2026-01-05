@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "602453538526",
+    "project_id": "organiza-tu-dia-71cce",
+    "storage_bucket": "organiza-tu-dia-71cce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602453538526:android:f2e1eaf063bf14d0bfb44f",
+        "android_client_info": {
+          "package_name": "com.example.organizatudia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeqnt_Hmh7zUuwtkv6uUvSOsx6gFt2nyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

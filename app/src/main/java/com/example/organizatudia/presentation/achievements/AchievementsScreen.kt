@@ -24,16 +24,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.organizatudia.data.repository.TaskRepositoryProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.organizatudia.domain.model.Achievement
-import com.example.organizatudia.domain.model.Task
 
 @Composable
-fun AchievementsScreen() {
-    val repository = TaskRepositoryProvider.taskRepository
-    val tasks by repository.getTasks().collectAsState(initial = emptyList())
-
-    val achievements = calculateAchievements(tasks)
+fun AchievementsScreen(
+    viewModel: AchievementsViewModel = viewModel()
+) {
+    val achievements by viewModel.achievements.collectAsState()
 
     Column(
         modifier = Modifier
@@ -92,54 +90,4 @@ private fun AchievementItem(achievement: Achievement) {
             }
         }
     }
-}
-
-/**
- * Lógica de logros basada en las tareas COMPLETADAS.
- */
-private fun calculateAchievements(tasks: List<Task>): List<Achievement> {
-    val completed = tasks.filter { it.isCompleted }
-    val totalCompleted = completed.size
-
-    val completedByDay = completed.groupBy { it.date }
-    val distinctCategories = completed.map { it.category }.toSet()
-
-    return listOf(
-        Achievement(
-            id = "first_task",
-            title = "Primera tarea completada",
-            description = "Marca al menos una tarea como completada.",
-            achieved = totalCompleted >= 1
-        ),
-        Achievement(
-            id = "five_days",
-            title = "5 días consecutivos",
-            description = "Completa tareas en al menos 5 días distintos.",
-            achieved = completedByDay.keys.size >= 5
-        ),
-        Achievement(
-            id = "ten_one_day",
-            title = "10 tareas en un día",
-            description = "Completa 10 tareas en un mismo día.",
-            achieved = completedByDay.values.any { it.size >= 10 }
-        ),
-        Achievement(
-            id = "fifty_total",
-            title = "Completar 50 tareas",
-            description = "Llega a 50 tareas completadas en total.",
-            achieved = totalCompleted >= 50
-        ),
-        Achievement(
-            id = "all_categories",
-            title = "Usar todas las categorías",
-            description = "Completa tareas usando varias categorías diferentes.",
-            achieved = distinctCategories.size >= 3
-        ),
-        Achievement(
-            id = "master_level",
-            title = "Nivel maestro alcanzado",
-            description = "Completa 100 tareas o más.",
-            achieved = totalCompleted >= 100
-        )
-    )
 }

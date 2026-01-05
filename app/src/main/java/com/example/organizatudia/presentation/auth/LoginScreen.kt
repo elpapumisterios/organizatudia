@@ -1,60 +1,91 @@
 package com.example.organizatudia.presentation.auth
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.organizatudia.framework.di.LocalAppContainer
 
 @Composable
 fun LoginScreen(
-    onLoginClick: () -> Unit,
-    onGoToRegisterClick: () -> Unit
+    onLoginSuccess: () -> Unit,
+    onGoRegister: () -> Unit
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val container = LocalAppContainer.current
+    val vm: LoginViewModel = viewModel(factory = LoginViewModelFactory(container))
+
+    val ui by vm.ui.collectAsState()
+
+    var email by rememberSaveable { mutableStateOf("") }
+    var pass by rememberSaveable { mutableStateOf("") }
+
+    LaunchedEffect(ui.success) {
+        if (ui.success) {
+            vm.consumeSuccess()
+            onLoginSuccess()
+        }
+    }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text("Iniciar Sesión", style = MaterialTheme.typography.headlineMedium)
-        Spacer(modifier = Modifier.height(32.dp))
+        Text("Iniciar sesión", style = MaterialTheme.typography.titleLarge)
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Correo Electrónico") },
-            modifier = Modifier.fillMaxWidth()
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth().testTag("loginEmailField")
         )
-        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
+            value = pass,
+            onValueChange = { pass = it },
             label = { Text("Contraseña") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().testTag("loginPassField")
         )
-        Spacer(modifier = Modifier.height(32.dp))
+
+        if (ui.error != null) {
+            Text(
+                text = ui.error ?: "",
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.testTag("loginErrorText")
+            )
+        }
+
+        Spacer(Modifier.height(8.dp))
 
         Button(
-            onClick = onLoginClick,
-            modifier = Modifier.fillMaxWidth()
+            onClick = { vm.login(email, pass) },
+            enabled = !ui.isLoading,
+            modifier = Modifier.fillMaxWidth().testTag("loginButton")
         ) {
-            Text("INICIAR SESIÓN")
+            Text(if (ui.isLoading) "CARGANDO..." else "ENTRAR")
         }
-        Spacer(modifier = Modifier.height(16.dp))
 
-        TextButton(onClick = onGoToRegisterClick) {
-            Text("¿No tienes cuenta? Crear cuenta")
+        Button(
+            onClick = onGoRegister,
+            modifier = Modifier.fillMaxWidth().testTag("goRegisterButton")
+        ) {
+            Text("Crear cuenta")
         }
     }
 }

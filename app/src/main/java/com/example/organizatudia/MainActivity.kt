@@ -7,11 +7,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.organizatudia.data.repository.TaskRepositoryProvider
+import com.example.organizatudia.framework.di.AppContainer
+import com.example.organizatudia.framework.di.LocalAppContainer
 import com.example.organizatudia.presentation.home.BottomNavigationBar
 import com.example.organizatudia.presentation.navigation.AppNavHost
 import com.example.organizatudia.presentation.navigation.Screen
@@ -21,15 +23,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializamos el repositorio (Room) una sola vez para toda la app
-        TaskRepositoryProvider.init(applicationContext)
-
         enableEdgeToEdge()
+
+        // ✅ Un solo container para toda la app (DI manual, Clean Architecture friendly)
+        val container = AppContainer(applicationContext)
+
         setContent {
             OrganizaTuDiaTheme {
-                OrganizaTuDiaApp()
+                val container = AppContainer(applicationContext)
+                androidx.compose.runtime.CompositionLocalProvider(
+                    com.example.organizatudia.framework.di.LocalAppContainer provides container
+                ) {
+                    OrganizaTuDiaApp()
+                }
             }
         }
+
     }
 }
 
@@ -39,7 +48,6 @@ fun OrganizaTuDiaApp() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    // Rutas donde se muestra la barra inferior
     val bottomBarRoutes = setOf(
         Screen.Home.route,
         Screen.Achievements.route,

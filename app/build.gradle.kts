@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
+
+    id("com.google.gms.google-services")
+
 }
 
 
@@ -59,9 +62,30 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
+    // ✅ Firebase BOM (maneja versiones)
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
 
+    // ✅ Remote Config
+    implementation("com.google.firebase:firebase-config-ktx")
+
+    // (Opcional pero recomendado para ver eventos en debug)
+    implementation("com.google.firebase:firebase-analytics-ktx")
 
     implementation("androidx.compose.material:material-icons-extended")
+
+    // Firebase Auth
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+// Para await() en Firebase Tasks con coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+
+// Tests coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+
+    testImplementation("androidx.room:room-testing:2.6.1")
+ // testear navegación o Activity
+    androidTestImplementation("androidx.navigation:navigation-testing:2.8.0")
+    androidTestImplementation("androidx.test:core-ktx:1.6.1")
 
     // ViewModel en Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")

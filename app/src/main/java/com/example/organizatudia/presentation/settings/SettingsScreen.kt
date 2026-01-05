@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.HorizontalDivider
 
 @Composable
 fun SettingsScreen(
@@ -101,5 +101,6 @@ fun SettingsItem(
             style = MaterialTheme.typography.bodyLarge
         )
     }
-    Divider()
+    HorizontalDivider()
+
 }

@@ -5,7 +5,7 @@ import java.util.UUID
 /**
  * Modelo de dominio para una tarea.
  *
- * En el futuro puedes cambiar date/time a LocalDate/LocalTime si quieres.
+ * date/time siguen siendo String por simplicidad.
  */
 data class Task(
     val id: String = UUID.randomUUID().toString(),
@@ -14,5 +14,11 @@ data class Task(
     val date: String = "",
     val time: String = "",
     val category: String = "General",
-    val isCompleted: Boolean = false
+
+    // ✅ NUEVO
+    val email: String = "",
+    val priority: String = "Media", // Alta | Media | Baja
+
+    val isCompleted: Boolean = false,
+    val isArchived: Boolean = false
 )

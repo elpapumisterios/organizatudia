@@ -5,14 +5,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
 import com.example.organizatudia.presentation.achievements.AchievementsScreen
 import com.example.organizatudia.presentation.archived.ArchivedTasksScreen
+import com.example.organizatudia.presentation.auth.LoginScreen
+import com.example.organizatudia.presentation.auth.RegisterScreen
 import com.example.organizatudia.presentation.createtask.CreateTaskScreen
 import com.example.organizatudia.presentation.home.HomeScreen
-import com.example.organizatudia.presentation.auth.LoginScreen
 import com.example.organizatudia.presentation.profile.ProfileScreen
-import com.example.organizatudia.presentation.auth.RegisterScreen
 import com.example.organizatudia.presentation.settings.SettingsScreen
 import com.example.organizatudia.presentation.welcome.WelcomeScreen
 
@@ -32,25 +31,33 @@ fun AppNavHost(
                 onRegisterClick = { navController.navigate(Screen.Register.route) }
             )
         }
+
         composable(Screen.Login.route) {
             LoginScreen(
-                onLoginClick = {
+                onLoginSuccess = {
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 },
-                onGoToRegisterClick = { navController.navigate(Screen.Register.route) }
-            )
-        }
-        composable(Screen.Register.route) {
-            RegisterScreen(
-                onRegisterClick = {
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Welcome.route) { inclusive = true }
-                    }
+                onGoRegister = {
+                    navController.navigate(Screen.Register.route)
                 }
             )
         }
+
+        composable(Screen.Register.route) {
+            RegisterScreen(
+                onRegisterSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Welcome.route) { inclusive = true }
+                    }
+                },
+                onBackToLogin = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
         composable(Screen.Home.route) {
             HomeScreen(
                 onAddTaskClick = { navController.navigate(Screen.CreateTask.route) }
@@ -60,6 +67,7 @@ fun AppNavHost(
         composable(Screen.Achievements.route) {
             AchievementsScreen()
         }
+
         composable(Screen.Settings.route) {
             SettingsScreen(
                 onProfileClick = { navController.navigate(Screen.Profile.route) },
@@ -70,16 +78,20 @@ fun AppNavHost(
                 onArchivedTasksClick = { navController.navigate(Screen.ArchivedTasks.route) }
             )
         }
+
         composable(Screen.Profile.route) {
             ProfileScreen()
         }
+
         composable(Screen.ArchivedTasks.route) {
             ArchivedTasksScreen(
                 onBackClick = { navController.popBackStack() }
             )
         }
+
         composable(Screen.CreateTask.route) {
             CreateTaskScreen(
+                onBackClick = { navController.popBackStack() },
                 onTaskSaved = { navController.popBackStack() }
             )
         }

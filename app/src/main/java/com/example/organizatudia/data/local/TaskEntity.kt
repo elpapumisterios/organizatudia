@@ -4,9 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.organizatudia.domain.model.Task
 
-/**
- * Entidad de Room que representa la tabla de tareas.
- */
 @Entity(tableName = "tasks")
 data class TaskEntity(
     @PrimaryKey val id: String,
@@ -15,12 +12,14 @@ data class TaskEntity(
     val date: String,
     val time: String,
     val category: String,
-    val isCompleted: Boolean
-)
 
-/**
- * Mapeos entre capa de datos (Room) y capa de dominio.
- */
+    // ✅ NUEVO
+    val email: String,
+    val priority: String,
+
+    val isCompleted: Boolean,
+    val isArchived: Boolean
+)
 
 fun TaskEntity.toDomain(): Task =
     Task(
@@ -30,7 +29,10 @@ fun TaskEntity.toDomain(): Task =
         date = date,
         time = time,
         category = category,
-        isCompleted = isCompleted
+        email = email,
+        priority = priority,
+        isCompleted = isCompleted,
+        isArchived = isArchived
     )
 
 fun Task.toEntity(): TaskEntity =
@@ -41,5 +43,8 @@ fun Task.toEntity(): TaskEntity =
         date = date,
         time = time,
         category = category,
-        isCompleted = isCompleted
+        email = email,
+        priority = priority,
+        isCompleted = isCompleted,
+        isArchived = isArchived
     )
