@@ -1,8 +1,9 @@
 package com.example.organizatudia.features.tasks.data.repository
 
 import android.content.Context
-import com.example.organizatudia.features.tasks.data.local.AppDatabase
 import com.example.organizatudia.features.tasks.domain.repository.TaskRepository
+import com.example.organizatudia.features.tasks.data.local.AppDatabase
+
 
 object TaskRepositoryProvider {
 
@@ -11,10 +12,14 @@ object TaskRepositoryProvider {
     val taskRepository: TaskRepository
         get() = _taskRepository
 
+    /** Producción (Room) */
     fun init(context: Context) {
-        if (!::_taskRepository.isInitialized) {
-            val db = AppDatabase.getInstance(context)
-            _taskRepository = RoomTaskRepository(taskDao = db.taskDao())
-        }
+        val db = AppDatabase.getInstance(context)
+        _taskRepository = RoomTaskRepository(db.taskDao())
+    }
+
+    /** Tests / previews */
+    fun initInMemory() {
+        _taskRepository = InMemoryTaskRepository()
     }
 }

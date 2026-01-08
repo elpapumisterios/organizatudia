@@ -10,7 +10,11 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
-
+//Registro válido
+//
+//Registro con campos vacíos
+//
+//Validaciones de dominio
 @OptIn(ExperimentalCoroutinesApi::class)
 class RegisterViewModelTest {
 

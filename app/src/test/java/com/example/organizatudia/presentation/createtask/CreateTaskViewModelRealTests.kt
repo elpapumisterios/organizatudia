@@ -14,6 +14,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+////✔ Valida reglas de negocio
+////✔ Verifica que NO se inserta en el repositorio
+////✔ Verifica estado de error del ViewModel
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class CreateTaskViewModelRealTests {
 

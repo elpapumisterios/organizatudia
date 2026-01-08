@@ -16,6 +16,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+//Comportamiento del estado UI
+//
+//Interacción ViewModel → UI State
+
 @RunWith(AndroidJUnit4::class)
 class CreateTaskScreenUiRealTest {
 

@@ -12,6 +12,12 @@ import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 
+//Login con credenciales válidas
+//
+//Login con campos vacíos
+//
+//Manejo de errores de autenticación
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginViewModelTest {
 
