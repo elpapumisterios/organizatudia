@@ -2,6 +2,7 @@ package com.example.organizatudia.presentation.createtask
 
 import com.example.organizatudia.MainDispatcherRule
 import com.example.organizatudia.data.repository.TaskRepositoryProvider
+import com.example.organizatudia.domain.usecase.CreateTaskUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -23,9 +24,15 @@ class CreateTaskViewModelRealTests {
         TaskRepositoryProvider.initInMemory()
     }
 
+    private fun buildViewModel(): CreateTaskViewModel {
+        val repo = TaskRepositoryProvider.taskRepository
+        val createTaskUseCase = CreateTaskUseCase(repo)
+        return CreateTaskViewModel(createTaskUseCase = createTaskUseCase)
+    }
+
     @Test
     fun saveTask_blankTitle_setsError_andDoesNotInsert() = runTest {
-        val vm = CreateTaskViewModel()
+        val vm = buildViewModel()
 
         vm.saveTask(
             title = "",
@@ -48,7 +55,7 @@ class CreateTaskViewModelRealTests {
 
     @Test
     fun saveTask_endBeforeStart_setsError_andDoesNotInsert() = runTest {
-        val vm = CreateTaskViewModel()
+        val vm = buildViewModel()
 
         vm.saveTask(
             title = "Tarea válida",
@@ -74,7 +81,7 @@ class CreateTaskViewModelRealTests {
 
     @Test
     fun saveTask_validData_insertsTask_andSetsSavedTrue() = runTest {
-        val vm = CreateTaskViewModel()
+        val vm = buildViewModel()
 
         vm.saveTask(
             title = "Tarea real",
