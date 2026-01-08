@@ -1,6 +1,6 @@
 package com.example.organizatudia.fakes
 
-import com.example.organizatudia.domain.auth.AuthRepository
+import com.example.organizatudia.features.auth.domain.repository.AuthRepository
 
 class FakeAuthRepository : AuthRepository {
 

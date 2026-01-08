@@ -1,8 +1,9 @@
 package com.example.organizatudia.presentation.createtask
 
 import com.example.organizatudia.MainDispatcherRule
-import com.example.organizatudia.data.repository.TaskRepositoryProvider
-import com.example.organizatudia.domain.usecase.CreateTaskUseCase
+import com.example.organizatudia.features.tasks.data.repository.TaskRepositoryProvider
+import com.example.organizatudia.features.tasks.domain.usecase.CreateTaskUseCase
+import com.example.organizatudia.features.tasks.presentation.createtask.CreateTaskViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle

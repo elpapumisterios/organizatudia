@@ -2,6 +2,7 @@ package com.example.organizatudia.presentation.auth
 
 import com.example.organizatudia.MainDispatcherRule
 import com.example.organizatudia.fakes.FakeAuthRepository
+import com.example.organizatudia.features.auth.presentation.register.RegisterViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest

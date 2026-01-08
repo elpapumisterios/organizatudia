@@ -1,7 +1,7 @@
 package com.example.organizatudia
 
 import android.app.Application
-import com.example.organizatudia.data.repository.TaskRepositoryProvider
+import com.example.organizatudia.features.tasks.data.repository.TaskRepositoryProvider
 import com.example.organizatudia.framework.di.AppContainer
 
 class OrganizaTuDiaApplication : Application() {

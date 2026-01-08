@@ -14,10 +14,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.organizatudia.framework.di.AppContainer
 import com.example.organizatudia.framework.di.LocalAppContainer
-import com.example.organizatudia.presentation.home.BottomNavigationBar
-import com.example.organizatudia.presentation.navigation.AppNavHost
-import com.example.organizatudia.presentation.navigation.Screen
-import com.example.organizatudia.ui.theme.OrganizaTuDiaTheme
+import com.example.organizatudia.features.tasks.presentation.home.BottomNavigationBar
+import com.example.organizatudia.navigation.AppNavHost
+import com.example.organizatudia.navigation.Screen
+import com.example.organizatudia.core.ui.theme.OrganizaTuDiaTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +32,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             OrganizaTuDiaTheme {
                 val container = AppContainer(applicationContext)
-                androidx.compose.runtime.CompositionLocalProvider(
-                    com.example.organizatudia.framework.di.LocalAppContainer provides container
+                CompositionLocalProvider(
+                    LocalAppContainer provides container
                 ) {
                     OrganizaTuDiaApp()
                 }
